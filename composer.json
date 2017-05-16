@@ -1,9 +1,9 @@
 {
     "require": {
-        "twig/twig": "^1.24",
-        "guzzlehttp/guzzle": "~6.0",
-        "nesbot/carbon": "^1.21",
-        "vlucas/phpdotenv": "^2.3",
-        "ircmaxell/random-lib": "^1.1"
+        "twig/twig": "^1.33",
+        "guzzlehttp/guzzle": "^6.2",
+        "nesbot/carbon": "^1.22",
+        "vlucas/phpdotenv": "^2.4",
+        "ircmaxell/random-lib": "^1.2"
     }
 }
