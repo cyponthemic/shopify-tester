@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Orders</title>
+	<link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/1.0.2/polaris.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<nav>
+	  <a href="#" class="brand">
+	    <span>Shopify App</span>
+	  </a>
+	</nav>
+
+	<main>
+
+		<div class="flex two">
+	    <div class="ui-card__section">
+				 <div class="ui-type-container">
+			    	<div class="table-wrapper">
+							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders {{order_total}}</h1>
+							<table class="table-hover expanded">
+								<thead>
+									<tr>
+										<td><h3>#</h3></td>
+										<td><h3>Address1</h3></td>
+										<td><h3>Address2</h3></td>
+										<td><h3>City</h3></td>
+										<td><h3>Postcode</h3></td>
+										<td><h3>Tags</h3></td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for order in orders %}
+									<tr>
+										<td><h3>{{ order.name }}</h3></td>
+										<td><h3>{{ order.shipping_address.address1}}</h3></td>
+										<td><h3>{{ order.shipping_address.address2}}</h3></td>
+										<td><h3>{{ order.shipping_address.city}}</h3></td>
+										<td><h3>{{ order.shipping_address.zip}}</h3></td>
+										<td><h3>{{ order.tags}}</h3></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders Exceptions {{orders_exceptions_total}}</h1>
+							<table class="table-hover expanded">
+								<thead>
+									<tr>
+										<td><h3>#</h3></td>
+										<td><h3>Address1</h3></td>
+										<td><h3>Address2</h3></td>
+										<td><h3>City</h3></td>
+										<td><h3>Postcode</h3></td>
+										<td><h3>Tags</h3></td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for order in orders_exceptions %}
+									<tr>
+										<td><h3>{{ order.name }}</h3></td>
+										<td><h3>{{ order.shipping_address.address1}}</h3></td>
+										<td><h3>{{ order.shipping_address.address2}}</h3></td>
+										<td><h3>{{ order.shipping_address.city}}</h3></td>
+										<td><h3>{{ order.shipping_address.zip}}</h3></td>
+										<td><h3>{{ order.tags}}</h3></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders Total {{order_total + orders_exceptions_total}}</h1>
+							<table class="table-hover expanded">
+								<thead>
+									<tr>
+										<td><h3>#</h3></td>
+										<td><h3>Address1</h3></td>
+										<td><h3>Address2</h3></td>
+										<td><h3>City</h3></td>
+										<td><h3>Postcode</h3></td>
+										<td><h3>Tags</h3></td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for order in orders_combined %}
+									<tr>
+										<td><h3>{{ order.name }}</h3></td>
+										<td><h3>{{ order.shipping_address.address1}}</h3></td>
+										<td><h3>{{ order.shipping_address.address2}}</h3></td>
+										<td><h3>{{ order.shipping_address.city}}</h3></td>
+										<td><h3>{{ order.shipping_address.zip}}</h3></td>
+										<td><h3>{{ order.tags}}</h3></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders Total Sorted {{order_total + orders_exceptions_total}}</h1>
+							<table class="table-hover expanded">
+								<thead>
+									<tr>
+										<td><h3>#</h3></td>
+										<td><h3>Address1</h3></td>
+										<td><h3>Address2</h3></td>
+										<td><h3>City</h3></td>
+										<td><h3>Postcode</h3></td>
+										<td><h3>Tags</h3></td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for order in orders_combined_sorted %}
+									<tr>
+										<td><h3><a href="http://localhost/shopify-tester/get-one-order.php?{{order.id}}">{{ order.name }}</a></h3></td>
+										<td><h3>{{ order.shipping_address.address1}}</h3></td>
+										<td><h3>{{ order.shipping_address.address2}}</h3></td>
+										<td><h3>{{ order.shipping_address.city}}</h3></td>
+										<td><h3>{{ order.shipping_address.zip}}</h3></td>
+										<td><h3>{{ order.tags}}</h3></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<table class="table-hover expanded">
+								<thead>
+									<tr>
+										<td><h3>Id</h3></td>
+										<td><h3>Name</h3></td>
+										<td><h3>Quantity</h3></td>
+									</tr>
+								</thead>
+								<tbody>
+									{% for item in items %}
+									<tr>
+										<td><h3>{{ item.id }}</h3></td>
+										<td><h3>{{ item.title}}</h3></td>
+										<td><h3>{{ item.quantity}}</h3></td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+		    </div>
+		  </div>
+		</div>
+	</main>
+	<script src="js/app.js"></script>
+</body>
+</html>
