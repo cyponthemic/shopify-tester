@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>customers</title>
+	<link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/1.0.2/polaris.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<nav>
+	  <a href="#" class="brand">
+	    <span>Shopify App</span>
+	  </a>
+	</nav>
+
+	<main>
+		<h1>Customers</h1>
+		<div class="flex two">
+	    <div class="ui-card__section">
+				 <div class="ui-type-container">
+			    	<div class="table-wrapper">
+								<table class="table-hover expanded">
+									<thead>
+										<tr>
+											<td><h3>#</h3></td>
+											<td><h3>Address1</h3></td>
+											<td><h3>Address2</h3></td>
+											<td><h3>City</h3></td>
+											<td><h3>Postcode</h3></td>
+										</tr>
+									</thead>
+									<tbody>
+										{% for customer in customers %}
+										<tr>
+											<td><h3 class="testtest">{{ customer.first_name }}</h3></td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+						</div>
+		    </div>
+		  </div>
+		</div>
+	</main>
+</body>
+</html>
