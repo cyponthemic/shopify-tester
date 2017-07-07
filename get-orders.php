@@ -61,10 +61,10 @@ function addOrderToTotal(&$orders_combined, $order){
 }
 function addItemToTotal(&$orders,&$order,&$items, $item){
 	$proto =  array('id' => $item['title'],'title' => $item['title'],'quantity' => $item['quantity']);
-
 	$proto_detail= array(
 		'name' => $order['billing_address']['first_name'].' '.$order['billing_address']['last_name'],
 		'title' => $item['title'],
+		'note' => $order['note'],
 		'quantity' => $item['quantity']
 	);
 	$variant_id = strval($item['title']);
