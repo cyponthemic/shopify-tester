@@ -2,10 +2,9 @@
 //find the week number
 //$today = date("Y-m-d");
 $offset_date = '4';
-$today_date = date("2017-06-02");
+$today_date = date("2017-07-08");
 $today_minus = date('Y-m-d', strtotime($today_date.' +'.$offset_date.' days'));
 $today_date = new DateTime($today_date);
-
 $today_minus = new DateTime($today_minus);
 $weekNumber = $today_date->format("W");
 $localWeekNumber = $today_minus->format("W");

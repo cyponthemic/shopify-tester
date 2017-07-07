@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+
+		<div class="flex two">
+	    <div class="ui-card__section">
+			 	<div class="ui-type-container">
+					<h1>
+							Driver {{route.vehicleRegistration}}
+					</h1>
+		    </div>
+		  </div>
+		</div>
+		<div class="flex two">
+	    <div class="ui-card__section">
+			 	<div class="ui-type-container">
+					<table>
+						<thead>
+							<tr>
+								<th>Address</th>
+								<th>Time</th>
+								<th>Link</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for stops in route.stops %}
+							<tr>
+								<td>{{stops.locationName}}</td>
+								<td>{{stops.scheduledAt}}</td>
+								<td><a class="button" href="get-one-order.php?stop={{ loop.index - 1}}">Go {{ stops.orderNo |slice(10) }}</a></td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+		    </div>
+		  </div>
+		</div>
+		<script src="js/fulfillment.js"></script>
+{% endblock %}

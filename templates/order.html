@@ -1,39 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Orders</title>
-	<link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/1.0.2/polaris.css">
-	<link rel="stylesheet" href="css/style.css">
-	<script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-</head>
-<body>
+{% extends "base.html" %}
 
-	<nav>
-	  <a href="#" class="brand">
-	    <span>Shopify App</span>
-	  </a>
-	</nav>
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+          <a href="get-routes.php" class="button">Back to routes</a>
+          <a href="get-orders.php" class="button">Back to orders</a>
+<div class="grid-x">
+  <div class="card" style="width: 300px;">
+    <div class="card-divider">
+      {{order.billing_address.first_name}} {{order.billing_address.last_name}}
+    </div>
+    <div class="card-section">
+      <h4>Address</h4>
+      <p>
+        <address>
+          {{order.billing_address.address1}}<br>
+          {{order.billing_address.address2}}<br>
+          {{order.billing_address.city}}<br>
+          {{order.billing_address.zip}}
+        </address>
+      </p>
+      <a href="http://maps.google.com/maps?daddr={{order_lat}},{{order_lon}}" class="button">
+        <i class="fi-share"></i>
+        Get direction
+      </a>
+    </div>
+  </div>
+  {% if order.note %}
+    <div class="callout warning">
+      <h5>Customer note:</h5>
+      <p>{{order.note}}</p>
+    </div>
+  {% endif %}
+</div>
 
-	<main>
 
-		<div class="flex two">
-	    <div class="ui-card__section">
-			 	<div class="ui-type-container">
-					<h1>{{order.billing_address.first_name}} {{order.billing_address.last_name}}</h1>
-					<h1>{{order.billing_address.address1}}</h1>
-					<a href="http://localhost/shopify-tester/get-orders.php" class="button">Back</a>
-					{% if order.note %}
-						<h2>Note</h2>
-						<div class="note">
-							<p class="">
-								{{order.note}}
-							</p>
-						</div>
-					{% endif %}
+
 					<h2>Items</h2>
 					<table>
 						<thead>
@@ -46,21 +53,33 @@
 							{% for item in order.line_items %}
 								<tr>
 									<td><b>{{item.name}}</b></td>
-									<td>{{item.quantity}}</td>
-									<td>{{item.fulfillment_status}}</td>
+									<td>
+                    <span class="badge">{{item.quantity}}</span>
+                  </td>
+									<td>
+
+                    {% if item.fulfillment_status == 'fulfilled' %}
+                        {{item.fulfillment_status}}
+                        <i class="fi-check"></i>
+                    {% else %}
+                        Not fulfilled
+                    {% endif %}
+                  </td>
 								</tr>
 							{% endfor %}
 						</thead>
 					</table>
 					<h2>Fullfill the order</h2>
-					<button class="button fulfillment" data-ajax="{{fulfillment_endpoint}}">Fulfill</button>
-					<button class="button fulfillment" data-ajax="{{cancel_endpoint}}">Cancel fulfill</button>
-					<h2>Tag the order</h2>
+          <div class="expanded button-group">
+            <button class="button fulfillment" data-ajax="{{fulfillment_endpoint}}">Fulfill</button>
+  					<button class="button fulfillment" data-ajax="{{cancel_endpoint}}">Cancel fulfill</button>
+          </div>
+          <div class="expanded button-group">
 
-		    </div>
-		  </div>
-		</div>
-	</main>
-<script src="js/fulfillment.js"></script>
-</body>
-</html>
+              <a class="button" href="get-one-order.php?stop={{ stop_id - 1}}" >Prev Order</a>
+
+  					<a class="button" href="get-one-order.php?stop={{ stop_id + 1}}">Next Order</a>
+            
+          </div>
+
+{% endblock %}

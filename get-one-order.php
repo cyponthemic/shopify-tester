@@ -9,7 +9,22 @@ $select = $db->query("SELECT access_token FROM installs WHERE store = '$store'")
 $user = $select->fetch_object();
 $access_token = $user->access_token;
 $client = new Client();
-$order_id = $_SERVER['QUERY_STRING'];
+$query_output = [];
+parse_str($_SERVER['QUERY_STRING'], $query_output);
+$stop_id = $query_output['stop'];
+
+
+
+session_start();
+$current_route = $_SESSION['current_route'];
+
+$current_stop = $_SESSION['current_route'][$stop_id];
+$order_id = substr ( $current_stop['orderNo'] , 0 , 10 );
+$order_lat = $current_stop['latitude'];
+$order_lon = $current_stop['longitude'];
+$prev_stop = $_SESSION['current_route']['prev_stop'];
+$next_stop = $_SESSION['current_route']['next_stop'];
+//var_dump($current_stop);
 //GET /admin/orders/#{id}.json?fields=id,line_items,name,total_price
 $order_response = $client->request(
 	'GET',
@@ -50,11 +65,19 @@ $fulfillment_endpoint = "post-fulfillements.php?order_id=".$order_id."&line_item
 $last_fullfilement = $order_result['order']['fulfillments'][0]['id'];
 $cancel_endpoint = "cancel-fulfillements.php?order_id=".$order_id."&ff_id=".$last_fullfilement;
 $template = $twig->loadTemplate('order.html');
+
 echo $template->render(
 	[
 		'order' => $order_result['order'],
+		'order_lat' => $order_lat,
+		'order_lon' => $order_lon,
 		'fulfillment_endpoint' => $fulfillment_endpoint,
-		'cancel_endpoint' => $cancel_endpoint
+		'cancel_endpoint' => $cancel_endpoint,
+		'stop_id' => $stop_id,
+		'current_route' => $current_route,
+		'current_stop' => $current_stop,
+		'prev_stop' => $prev_stop,
+		'next_stop' => $next_stop
 	]
 
 );

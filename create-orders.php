@@ -130,7 +130,7 @@ foreach ($result_exceptions['orders'] as $order) {
 }
 
 include('./library/optimo-route-create.php');
-//optimoRouteCreateOrder ($today_date->format("Y-m-d"),$client,$opt_orders_to_create,$opt_address_errors,$orders_combined);
+optimoRouteCreateOrder ($today_date->format("Y-m-d"),$client,$opt_orders_to_create,$opt_address_errors,$orders_combined);
 
 $loader = new Twig_Loader_Filesystem('templates');
 $twig = new Twig_Environment($loader, [

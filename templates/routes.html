@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+<div class="grid-x">
+	{% for route in routes %}
+  <div class="cell large-3">
+		<div class="card" style="width: 300px;">
+		  <div class="card-divider">
+		    Driver {{route.vehicleRegistration}}
+		  </div>
+		  <div class="card-section">
+		    <h4>This is your route.</h4>
+				<a class="button" href="get-route.php?{{route.vehicleLabel}}">
+					Go
+				</a>
+		  </div>
+		</div>
+  </div>
+	{% endfor %}
+</div>
+
+{% endblock %}

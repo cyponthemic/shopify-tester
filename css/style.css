@@ -1,5 +1,10 @@
-main {
-	width: 1200px;
+#content {
+	padding: 0 15px;
 	margin: 0 auto;
-	padding-top: 150px;
+}
+
+.limit-height {
+	max-height: 70vh;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }

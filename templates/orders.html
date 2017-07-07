@@ -8,128 +8,189 @@
     </style>
 {% endblock %}
 {% block content %}
-		<div class="flex two">
-	    <div class="ui-card__section">
-				 <div class="ui-type-container">
-			    	<div class="table-wrapper">
-							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders {{order_total}}</h1>
-							<table class="table-hover expanded">
-								<thead>
-									<tr>
-										<td><h3>#</h3></td>
-										<td><h3>Address1</h3></td>
-										<td><h3>Address2</h3></td>
-										<td><h3>City</h3></td>
-										<td><h3>Postcode</h3></td>
-										<td><h3>Tags</h3></td>
-									</tr>
-								</thead>
-								<tbody>
-									{% for order in orders %}
-									<tr>
-										<!-- <td><h3>{{ order.name }}</h3></td> -->
-										<td><h3>{{ order.shipping_address.address1}} {{ order.shipping_address.address2}} {{ order.shipping_address.city}} {{ order.shipping_address.zip}}</h3></td>
-									
-										<!-- <td><h3>{{ order.tags}}</h3></td> -->
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders Exceptions {{orders_exceptions_total}}</h1>
-							<table class="table-hover expanded">
-								<thead>
-									<tr>
-										<td><h3>#</h3></td>
-										<td><h3>Address1</h3></td>
-										<td><h3>Address2</h3></td>
-										<td><h3>City</h3></td>
-										<td><h3>Postcode</h3></td>
-										<td><h3>Tags</h3></td>
-									</tr>
-								</thead>
-								<tbody>
-									{% for order in orders_exceptions %}
-									<tr>
-										<td><h3>{{ order.name }}</h3></td>
-										<td><h3>{{ order.shipping_address.address1}}</h3></td>
-										<td><h3>{{ order.shipping_address.address2}}</h3></td>
-										<td><h3>{{ order.shipping_address.city}}</h3></td>
-										<td><h3>{{ order.shipping_address.zip}}</h3></td>
-										<td><h3>{{ order.tags}}</h3></td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders Total {{order_total + orders_exceptions_total}}</h1>
-							<table class="table-hover expanded">
-								<thead>
-									<tr>
-										<td><h3>#</h3></td>
-										<td><h3>Address1</h3></td>
-										<td><h3>Address2</h3></td>
-										<td><h3>City</h3></td>
-										<td><h3>Postcode</h3></td>
-										<td><h3>Tags</h3></td>
-									</tr>
-								</thead>
-								<tbody>
-									{% for order in orders_combined %}
-									<tr>
-										<td><h3>{{ order.name }}</h3></td>
-										<td><h3>{{ order.shipping_address.address1}}</h3></td>
-										<td><h3>{{ order.shipping_address.address2}}</h3></td>
-										<td><h3>{{ order.shipping_address.city}}</h3></td>
-										<td><h3>{{ order.shipping_address.zip}}</h3></td>
-										<td><h3>{{ order.tags}}</h3></td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-							<h1 class="Polaris-DisplayText Polaris-DisplayText--sizeMedium">Orders Total Sorted {{order_total + orders_exceptions_total}}</h1>
-							<table class="table-hover expanded">
-								<thead>
-									<tr>
-										<td><h3>#</h3></td>
-										<td><h3>Address1</h3></td>
-										<td><h3>Address2</h3></td>
-										<td><h3>City</h3></td>
-										<td><h3>Postcode</h3></td>
-										<td><h3>Tags</h3></td>
-									</tr>
-								</thead>
-								<tbody>
-									{% for order in orders_combined_sorted %}
-									<tr>
-										<td><h3><a href="http://localhost/shopify-tester/get-one-order.php?{{order.id}}">{{ order.name }}</a></h3></td>
-										<td><h3>{{ order.shipping_address.address1}}</h3></td>
-										<td><h3>{{ order.shipping_address.address2}}</h3></td>
-										<td><h3>{{ order.shipping_address.city}}</h3></td>
-										<td><h3>{{ order.shipping_address.zip}}</h3></td>
-										<td><h3>{{ order.tags}}</h3></td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-							<table class="table-hover expanded">
-								<thead>
-									<tr>
-										<td><h3>Id</h3></td>
-										<td><h3>Name</h3></td>
-										<td><h3>Quantity</h3></td>
-									</tr>
-								</thead>
-								<tbody>
-									{% for item in items %}
-									<tr>
-										<td><h3>{{ item.id }}</h3></td>
-										<td><h3>{{ item.title}}</h3></td>
-										<td><h3>{{ item.quantity}}</h3></td>
-									</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
-		    </div>
-		  </div>
-		</div>
+<div class="grid-x">
+  <div class="cell large-12">
+    {% for error in opt_address_errors %}
+    <div class="callout error" data-closable>
+      <button class="close-button" aria-label="Close alert" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p>{{ error.message}}</p>
+      <p>{{ error.code}}</p>
+      <p>{{error.shipping_address}}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="grid-x">
+  <div class="cell large-12">
+    <h2>Orders recap</h2>
+    <p>Orders per week</p>
+    <ul class="tabs" data-tabs id="order-tabs">
+      <li class="tabs-title"><a href="#order-week-tab">Orders week</a></li>
+      <li class="tabs-title"><a href="#order-exceptions-tab">Orders exceptions</a></li>
+      <li class="tabs-title"><a href="#order-total-tab">Orders total</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="order-tabs">
+      <div class="tabs-panel" id="order-week-tab">
+        <div class="limit-height">
+        <table class="table-hover expanded">
+          <thead>
+            <tr>
+              <td><h3>#</h3></td>
+              <td><h3>Address1</h3></td>
+              <td><h3>Address2</h3></td>
+              <td><h3>City</h3></td>
+              <td><h3>Postcode</h3></td>
+              <td><h3>Tags</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr>
+              <td>{{ order.name }}</td>
+              <td>{{ order.shipping_address.address1}}</td>
+              <td>{{ order.shipping_address.address2}}</td>
+              <td>{{ order.shipping_address.city}}</td>
+              <td>{{ order.shipping_address.zip}}</td>
+              <td>{{ order.tags}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="tabs-panel" id="orders-exceptions-tab">
+        <div class="limit-height">
+          <table class="table-hover expanded">
+            <thead>
+              <tr>
+                <td><h3>#</h3></td>
+                <td><h3>Address1</h3></td>
+                <td><h3>Address2</h3></td>
+                <td><h3>City</h3></td>
+                <td><h3>Postcode</h3></td>
+                <td><h3>Tags</h3></td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders_exceptions %}
+              <tr>
+                <td>{{ order.name }}</td>
+                <td>{{ order.shipping_address.address1}}</td>
+                <td>{{ order.shipping_address.address2}}</td>
+                <td>{{ order.shipping_address.city}}</td>
+                <td>{{ order.shipping_address.zip}}</td>
+                <td>{{ order.tags}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tabs-panel" id="orders-total-tab">
+        <div class="limit-height">
+          <table class="table-hover expanded">
+            <thead>
+              <tr>
+                <td><h3>#</h3></td>
+                <td><h3>Address1</h3></td>
+                <td><h3>Address2</h3></td>
+                <td><h3>City</h3></td>
+                <td><h3>Postcode</h3></td>
+                <td><h3>Tags</h3></td>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders_combined %}
+              <tr>
+                <td>{{ order.name }}</td>
+                <td>{{ order.shipping_address.address1}}</td>
+                <td>{{ order.shipping_address.address2}}</td>
+                <td>{{ order.shipping_address.city}}</td>
+                <td>{{ order.shipping_address.zip}}</td>
+                <td>{{ order.tags}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="grid-x">
+  <div class="cell large-12">
+    <h2>Item recap</h2>
+    <p>Item recap per delivery type</p>
+    <ul class="tabs" data-tabs id="recap-tabs">
+      <li class="tabs-title"><a href="#deliveries-tab">Delivery</a></li>
+      <li class="tabs-title"><a href="#thornbury-tab">Thornbury</a></li>
+      <li class="tabs-title"><a href="#brunswick-tab">Brunswick</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="recap-tabs">
+      <div class="tabs-panel" id="deliveries-tab">
+        <table class="table-hover expanded">
+          <thead>
+            <tr>
+              <td><h3>Id</h3></td>
+              <td><h3>Name</h3></td>
+              <td><h3>Quantity</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.title}}</td>
+              <td>{{ item.quantity}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tabs-panel" id="thornbury-tab">
+        <table class="table-hover expanded">
+          <thead>
+            <tr>
+              <td><h3>Id</h3></td>
+              <td><h3>Name</h3></td>
+              <td><h3>Quantity</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items_brunswick %}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.title}}</td>
+              <td>{{ item.quantity}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tabs-panel" id="brunswick-tab">
+        <table class="table-hover expanded">
+          <thead>
+            <tr>
+              <td><h3>Id</h3></td>
+              <td><h3>Name</h3></td>
+              <td><h3>Quantity</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items_thornbury %}
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.title}}</td>
+              <td>{{ item.quantity}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
