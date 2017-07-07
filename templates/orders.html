@@ -190,6 +190,75 @@
         </table>
       </div>
     </div>
+    <h2>Order detail</h2>
+    <p>List name + box + addon per pickup points</p>
+    <ul class="tabs" data-tabs id="detail-tabs">
+      <li class="tabs-title"><a href="#deliveries-detail-tab">Delivery</a></li>
+      <li class="tabs-title"><a href="#thornbury-detail-tab">Thornbury</a></li>
+      <li class="tabs-title"><a href="#brunswick-detail-tab">Brunswick</a></li>
+    </ul>
+    <div class="tabs-content" data-tabs-content="detail-tabs">
+      <div class="tabs-panel" id="deliveries-detail-tab">
+        <table class="table-hover expanded">
+          <thead>
+            <tr>
+              <td><h3>Id</h3></td>
+              <td><h3>Name</h3></td>
+              <td><h3>Quantity</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order_detail in order_detail_deliveries %}
+            <tr>
+              <td>{{ order_detail.name }}</td>
+              <td>{{ order_detail.title}}</td>
+              <td>{{ order_detail.quantity}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tabs-panel" id="thornbury-detail-tab">
+        <table class="table-hover expanded">
+          <thead>
+            <tr>
+              <td><h3>Id</h3></td>
+              <td><h3>Name</h3></td>
+              <td><h3>Quantity</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order_detail in order_detail_thornbury %}
+            <tr>
+              <td>{{ order_detail.name }}</td>
+              <td>{{ order_detail.title}}</td>
+              <td>{{ order_detail.quantity}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="tabs-panel" id="brunswick-detail-tab">
+        <table class="table-hover expanded">
+          <thead>
+            <tr>
+              <td><h3>Id</h3></td>
+              <td><h3>Name</h3></td>
+              <td><h3>Quantity</h3></td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order_detail in order_detail_brunswick %}
+            <tr>
+              <td>{{ order_detail.name }}</td>
+              <td>{{ order_detail.title}}</td>
+              <td>{{ order_detail.quantity}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 

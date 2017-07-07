@@ -14,7 +14,7 @@ function optimoRouteCreateOrder (&$date,&$client,&$opt_orders_to_create,&$opt_ad
 				'location' => [
 					'address' => $shipping_address
 				],
-				'duration' => 2,
+				'duration' => 4,
 				'twFrom' => '08:00',
 				'twTo' => '18:00'
 			);

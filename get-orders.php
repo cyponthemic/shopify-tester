@@ -51,19 +51,32 @@ $order_index = 0;
 $orders_exceptions_total = 0;
 $orders_exceptions_index = 0;
 
+$order_detail_deliveries = [];
+$order_detail_brunswick = [];
+$order_detail_thornbury = [];
+
 $orders_combined = array();
 function addOrderToTotal(&$orders_combined, $order){
 	array_push($orders_combined,$order);
 }
-function addItemToTotal(&$items, $item){
+function addItemToTotal(&$orders,&$order,&$items, $item){
 	$proto =  array('id' => $item['title'],'title' => $item['title'],'quantity' => $item['quantity']);
+
+	$proto_detail= array(
+		'name' => $order['billing_address']['first_name'].' '.$order['billing_address']['last_name'],
+		'title' => $item['title'],
+		'quantity' => $item['quantity']
+	);
 	$variant_id = strval($item['title']);
+	array_push($orders,$proto_detail);
+
 	if(array_key_exists($variant_id, $items)){
 		$items[$item['title']]['quantity'] = $items[$item['title']]['quantity'] +  $item['quantity'];
 	}
 	else{
 		$items[$item['title']] = $proto;
 	}
+
 }
 
 function checkPickUp($zip) {
@@ -95,13 +108,13 @@ foreach ($result['orders'] as $order) {
 				$pickup =  checkPickUp($order['shipping_address']['zip']);
 				switch ($pickup) {
 					case 'thornbury':
-						addItemToTotal($items_thornbury, $item);
+						addItemToTotal($order_detail_thornbury,$order,$items_thornbury, $item);
 						break;
 					case 'brunswick':
-						addItemToTotal($items_brunswick, $item);
+						addItemToTotal($order_detail_brunswick,$order,$items_brunswick, $item);
 						break;
 					default:
-						addItemToTotal($items, $item);
+						addItemToTotal($order_detail_deliveries,$order,$items, $item);
 						break;
 				}
 
@@ -132,6 +145,7 @@ foreach ($result_exceptions['orders'] as $order) {
 include('./library/optimo-route-create.php');
 //optimoRouteCreateOrder ($today_date->format("Y-m-d"),$client,$opt_orders_to_create,$opt_address_errors,$orders_combined);
 
+
 $loader = new Twig_Loader_Filesystem('templates');
 $twig = new Twig_Environment($loader, [
     'cache' => 'cache',
@@ -148,7 +162,11 @@ echo $template->render(
 		'items_thornbury' => $items_thornbury,
 		'items_brunswick' => $items_brunswick,
 		'order_total' => $order_total,
-		'orders_exceptions_total' => $orders_exceptions_total
+		'orders_exceptions_total' => $orders_exceptions_total,
+		'order_detail_deliveries' => $order_detail_deliveries,
+		'order_detail_brunswick' => $order_detail_brunswick,
+		'order_detail_thornbury' => $order_detail_thornbury
+
 	]
 
 );
