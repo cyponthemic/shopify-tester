@@ -17,7 +17,7 @@ $response = $client->request(
 	"https://{$store}/admin/orders.json",
 	[
 		'query' => [
-			// /'fulfillment_status' => 'unshipped',
+			'fulfillment_status' => 'unshipped',
 			'limit' => 250,
 			'access_token' => $access_token,
 			'created_at_min' =>  $date_min->format("Y-m-d")

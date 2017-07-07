@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Index{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+<h2>Order detail</h2>
+<p>List name + box + addon per pickup points</p>
+<ul class="tabs" data-tabs id="detail-tabs">
+  <li class="tabs-title"><a href="#recap-tab">Recap</a></li>
+  <li class="tabs-title"><a href="#detail-tab">Detail</a></li>
+</ul>
+<div class="tabs-content" data-tabs-content="detail-tabs">
+  <div class="tabs-panel" id="recap-tab">
+    <table class="table-hover expanded">
+      <thead>
+        <tr>
+          <td><h3>Id</h3></td>
+          <td><h3>Name</h3></td>
+          <td><h3>Quantity</h3></td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in item_detail %}
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{ item.title}}</td>
+          <td>{{ item.quantity}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="tabs-panel" id="detail-tab">
+    <table class="table-hover expanded">
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Product</td>
+          <td>Quantity</td>
+          <td>Note</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order_detail in order_detail_driver %}
+        <tr>
+          <td>{{ order_detail.name }}</td>
+          <td>{{ order_detail.title}}</td>
+          <td>{{ order_detail.quantity}}</td>
+          <td>{{ order_detail.note}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+		<div class="flex two">
+	    <div class="ui-card__section">
+			 	<div class="ui-type-container">
+					<h1>
+							Driver {{route.vehicleRegistration}}
+					</h1>
+		    </div>
+		  </div>
+		</div>
+		<div class="flex two">
+	    <div class="ui-card__section">
+			 	<div class="ui-type-container">
+					<table>
+						<thead>
+							<tr>
+								<th>Address</th>
+								<th>Time</th>
+								<th>Link</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for stops in route.stops %}
+							<tr>
+								<td>{{stops.locationName}}</td>
+								<td>{{stops.scheduledAt}}</td>
+								<td><a class="button" href="get-one-order.php?stop={{ loop.index - 1}}">Go {{ stops.orderNo |slice(10) }}</a></td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+		    </div>
+		  </div>
+		</div>
+		<script src="js/fulfillment.js"></script>
+{% endblock %}
