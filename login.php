@@ -1,4 +1,8 @@
 <?php
+//Alex chavet version 0.1
+
+
+
 require 'vendor/autoload.php';
 
 use Carbon\Carbon;
@@ -7,12 +11,12 @@ use GuzzleHttp\Client;
 $dotenv = new Dotenv\Dotenv(__DIR__);
 $dotenv->load();
 
-$db = new Mysqli(getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASS'), getenv('MYSQL_DB')); 
+$db = new Mysqli(getenv('MYSQL_HOST'), getenv('MYSQL_USER'), getenv('MYSQL_PASS'), getenv('MYSQL_DB'));
 
 $api_key = getenv('SHOPIFY_APIKEY');
 $secret_key = getenv('SHOPIFY_SECRET');
 
-$query = $_GET; 
+$query = $_GET;
 if (!isset($query['code'], $query['hmac'], $query['shop'], $query['state'], $query['timestamp'])) {
 	exit;
 }
@@ -23,7 +27,7 @@ unset($query['hmac']);
 $params = [];
 foreach ($query as $key => $val) {
 	$params[] = "$key=$val";
-} 
+}
 
 asort($params);
 $params = implode('&', $params);
@@ -31,11 +35,11 @@ $calculated_hmac = hash_hmac('sha256', $params, $secret_key);
 
 $store = $query['shop'];
 if($hmac === $calculated_hmac){
-	
+
 	$client = new Client();
 
 	$response = $client->request(
-		'POST', 
+		'POST',
 		"https://{$store}/admin/oauth/access_token",
 		[
 			'form_params' => [
@@ -48,7 +52,7 @@ if($hmac === $calculated_hmac){
 
 	$data = json_decode($response->getBody()->getContents(), true);
 	$access_token = $data['access_token'];
-	
+
 
 	$nonce = $query['state'];
 
