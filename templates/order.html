@@ -23,7 +23,9 @@
           {{order.billing_address.address2}}<br>
           {{order.billing_address.city}}<br>
           {{order.billing_address.zip}}
+
         </address>
+        <a href="tel:{{order.billing_address.phone}}">{{order.billing_address.phone}}</span>
       </p>
       <a href="http://maps.google.com/maps?daddr={{order_lat}},{{order_lon}}" class="button">
         <i class="fi-share"></i>
@@ -79,7 +81,7 @@
               <a class="button" href="get-one-order.php?stop={{ stop_id - 1}}" >Prev Order</a>
 
   					<a class="button" href="get-one-order.php?stop={{ stop_id + 1}}">Next Order</a>
-            
+
           </div>
 
 {% endblock %}
